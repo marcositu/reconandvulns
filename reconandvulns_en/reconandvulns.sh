@@ -420,7 +420,7 @@ if [[ -z $1 ]]; then
 	}
 
 
-	function_notifications_fin () {
+	function_notifications_end () {
 		echo "$(tput setab 1) [-] Notifications$(tput sgr 0)"
 		echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 
@@ -561,5 +561,5 @@ if [[ -z $1 ]]; then
 	function_xssbb
 	function_sqli
 	function_sratarun
-	function_notifications_fin
+	function_notifications_end
 fi
