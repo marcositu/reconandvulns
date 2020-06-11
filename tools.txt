@@ -14,7 +14,7 @@ apt-get install -y python-setuptools wget
 apt-get install -y libldns-dev
 apt-get install -y python3-pip
 apt-get install -y python-dnspython
-apt-get install -y git jq
+apt-get install -y git jq iputils-ping
 apt-get install -y chromium-browser
 apt-get install -y dirb dialog colorized-logs curl screen dnsutils vim
 pip3 install requests 
