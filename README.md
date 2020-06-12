@@ -6,3 +6,8 @@ To run these scripts, you must install the tools. The procedure to install the t
 It should be noted that the scripts are not linked, so the 2nd part must be executed manually.
 
 I apologize for the code, but it's not my strong 😕
+
+#  Setting Up the Container
+docker pull marcositu/reconandvulns:v5
+
+docker run -it --name reconandvulns -v ~/tools/Bounties/:/root/tools/Bounties/ marcositu/reconandvulns:v5 bash
