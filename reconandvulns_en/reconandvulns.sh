@@ -12,9 +12,9 @@ if [[ -z $1 ]]; then
 	TELEAPI="botXXXX"
 	CHATID="-XXXX"
 	BXSS="https://XXXXXXX.xss.ht"
-	FFUFDIC=~/tools/reconandvunls/dicc.txt
+	FFUFDIC=~/tools/reconandvunls/reconandvulns_en/dicc.txt
 	DIRBLIST=~/tools/listas/directory-list-2.3-medium.txt
-	ARONDIC=~/tools/reconandvunls/dictfull.txt
+	ARONDIC=~/tools/reconandvunls/reconandvulns_en/dictfull.txt
 	echo "$(tput setab 7)[+] $DOMAIN$(tput sgr 0)"
 	mkdir -p "${MYDIR}/${DOMAIN}"
 	mkdir -p ${MYDIR}/${DOMAIN}/dirb
