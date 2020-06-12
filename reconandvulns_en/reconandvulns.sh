@@ -17,7 +17,6 @@ if [[ -z $1 ]]; then
 	ARONDIC=~/tools/reconandvunls/dictfull.txt
 	echo "$(tput setab 7)[+] $DOMAIN$(tput sgr 0)"
 	mkdir -p "${MYDIR}/${DOMAIN}"
-	mkdir -p ${MYDIR}/${DOMAIN}/dirb
 	mkdir -p ${MYDIR}/${DOMAIN}/naabu
 	mkdir -p ${MYDIR}/${DOMAIN}/js
 	mkdir -p ${MYDIR}/${DOMAIN}/js/js
@@ -46,16 +45,6 @@ if [[ -z $1 ]]; then
 	function_notifications_start () {
 		curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="Starting => ${WEB} `date +"%Y-%m-%d %H:%M"`" >/dev/null 2>/dev/null
 	}
-
-	function_dirb () {
-		echo "$(tput setab 1) [-] dirb$(tput sgr 0)"
-		### dirb ###
-		cd ${MYDIR}/${DOMAIN}/dirb
-		screen -A -m -d -S screen_dirb_$DOMAIN dirb ${WEB} ${DIRBLIST} -z 2000 -w -o dirb_${DOMAIN}.txt
-		echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
-	}
-
-
 
 	function_xssbb() {
 		echo "$(tput setab 1) [-] xssb$(tput sgr 0)"
@@ -539,7 +528,6 @@ if [[ -z $1 ]]; then
 	}
 
 	function_notifications_start
-	#function_dirb
 	#function_naabu
 	function_ffuf
 	function_hakrawler
