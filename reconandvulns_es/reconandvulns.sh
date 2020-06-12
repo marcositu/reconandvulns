@@ -13,7 +13,7 @@ if [[ -z $1 ]]; then
 	CHATID="-XXXXXX"
 	BXSS="https://XXXXXXXX.xss.ht"
 	FFUFDIC=~/tools/reconandvunls/reconandvulns_es/dicc.txt
-	DIRBLISTA=~/tools/listas/directory-list-2.3-medium.txt
+	DIRBLISTA=~/tools/reconandvunls/reconandvulns_es/directory-list-2.3-medium.txt
 	ARONDIC=~/tools/reconandvunls/reconandvulns_es/dictfull.txt
 	echo "$(tput setab 7)[+] $DOMINIO$(tput sgr 0)"
 	mkdir -p "${MIDIR}/${DOMINIO}"
