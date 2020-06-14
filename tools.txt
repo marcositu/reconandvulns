@@ -134,7 +134,7 @@ wget https://github.com/Edu4rdSHL/findomain/releases/latest/download/findomain-l
 chmod +x findomain-linux
 cp findomain-linux
 
-# Instalar aquatone
+#aquatone
 cd /tmp
 wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
 unzip aquatone_linux_amd64_1.7.0.zip
