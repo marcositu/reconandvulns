@@ -557,8 +557,8 @@ else
 				if [ -f "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" ]; then
 						capacidad1=$(grep -v '[+] ' -c <"${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html")
 						if [ $capacidad1 != 0 ]; then
-							curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE ZILE" >/dev/null 2>/dev/null
-							echo "$(tput setab 2)   [-] [TIENE ZILE]$(tput sgr 0)"
+								curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE ZILE" >/dev/null 2>/dev/null
+								echo "$(tput setab 2)   [-] [TIENE ZILE]$(tput sgr 0)"
 						fi
 			    fi
 
@@ -567,13 +567,13 @@ else
 				if [ -f "${MIDIR}/${DOMINIO}/smuggler/${DOMINIO}_smuggler.html" ]; then
 						capacidad1=$(grep -c '[CRITICAL]' <"{MIDIR}/${DOMINIO}/smuggler/${DOMINIO}_smuggler.html")
 						if [ $capacidad1 != 0 ]; then
-						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE SMUGGLER" >/dev/null 2>/dev/null
-						echo "$(tput setab 2)   [-] [TIENE SMUGGLER]$(tput sgr 0)"
+							curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE SMUGGLER" >/dev/null 2>/dev/null
+							echo "$(tput setab 2)   [-] [TIENE SMUGGLER]$(tput sgr 0)"
 						fi
-					fi
 			    fi
 
 
+			    #paramspider
 				if [ -f "${MIDIR}/${DOMINIO}/paramspider/${DOMINIO}_paramspider.html" ]; then
 					#paramspider
 					curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE PARAMSPIDER" >/dev/null 2>/dev/null
