@@ -7,7 +7,7 @@
 
 # Considerations
 * You can use the file ***tools.txt*** to install the necessary tools and configure the APIs:
-  * dirb, naabu, waybackurls, hakrawler, linkFinder, arjun, eyewitness, XSStrike, dalfox, ffuf, gau, kxss, paramspider, aron, hinject, colorized-logs, github-search, screen, curl y DSSS.
+  * dirb, naabu, waybackurls, hakrawler, linkFinder, arjun, eyewitness, XSStrike, dalfox, ffuf, gau, kxss, paramspider, aron, hinject, colorized-logs, github-search, screen, curl, zile, smuggler and DSSS.
   * You must have a Telegram Group or Chat for notifications
   * o	You must modify the following variables:
     * **MIDIR**: Work Directory
