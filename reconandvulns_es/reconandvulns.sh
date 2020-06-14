@@ -16,8 +16,8 @@ else
 		TELEAPI="XXXXXX"
 		CHATID="XXXXXX"
 		BXSS="XXXXXX.xss.ht"
-		FFUFDIC=~/tools/reconandvunls/dicc.txt
-		ARONDIC=~/tools/reconandvunls/dictfull.txt
+		FFUFDIC=~/tools/reconandvulns/dicc.txt
+		ARONDIC=~/tools/reconandvulns/dictfull.txt
 
 		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "XXXXXX.xss.ht" ]]; then
 			echo "$(tput setab 5) [+] Modificar las siguientes variables para el funcionamiento del script$(tput sgr 0)"
