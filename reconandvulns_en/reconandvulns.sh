@@ -13,12 +13,12 @@ else
 		DOMAIN=`echo "${WEB}" | awk -F/ '{print $3}'`
 		DAY=`date +"%Y%m%d"`
 		MYDIR=~/tools/Bounties/VULNS/${DAY}
-		TELEAPI="1XXXXXX"
-		CHATID="1XXXXXX"
-		BXSS="https://X1XXXXX.xss.ht"
+		TELEAPI="XXXXXX"
+		CHATID="XXXXXX"
+		BXSS="https://XXXXXX.xss.ht"
 		FFUFDIC=~/tools/reconandvulns/dicc.txt
 		ARONDIC=~/tools/reconandvulns/dictfull.txt
-		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "XXXXXX.xss.ht" ]]; then
+		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "https://XXXXXX.xss.ht" ]]; then
 			echo "$(tput setab 5) [+] Modify the following variables in order to get the script working:$(tput sgr 0)"
 			echo "$(tput setab 5)  [-] MIDIR => linea 15$(tput sgr 0)"
  			echo "$(tput setab 5)  [-] TELEAPI => line 16$(tput sgr 0)"
