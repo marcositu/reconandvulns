@@ -557,10 +557,9 @@ else
 				if [ -f "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" ]; then
 						capacidad1=$(grep -v '[+] ' -c <"${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html")
 						if [ $capacidad1 != 0 ]; then
-						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE ZILE" >/dev/null 2>/dev/null
-						echo "$(tput setab 2)   [-] [TIENE ZILE]$(tput sgr 0)"
+							curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE ZILE" >/dev/null 2>/dev/null
+							echo "$(tput setab 2)   [-] [TIENE ZILE]$(tput sgr 0)"
 						fi
-					fi
 			    fi
 
 
@@ -612,4 +611,3 @@ else
 		fi
 	fi
 fi
-
