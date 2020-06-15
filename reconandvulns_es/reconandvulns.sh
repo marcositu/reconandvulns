@@ -17,7 +17,7 @@ else
 		CHATID="XXXXXX"
 		BXSS="XXXXXX.xss.ht"
 		FFUFDIC=~/tools/reconandvulns/dicc.txt
-		ARONDIC=~/tools/reconandvulns/dictfull.txt
+		#ARONDIC=~/tools/reconandvulns/dictfull.txt
 
 		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "XXXXXX.xss.ht" ]]; then
 			echo "$(tput setab 5) [+] Modificar las siguientes variables para el funcionamiento del script$(tput sgr 0)"
@@ -46,7 +46,7 @@ else
 			mkdir -p ${MIDIR}/${DOMINIO}/gau
 			mkdir -p ${MIDIR}/${DOMINIO}/kxss
 			mkdir -p ${MIDIR}/${DOMINIO}/paramspider
-			mkdir -p ${MIDIR}/${DOMINIO}/aron
+			#mkdir -p ${MIDIR}/${DOMINIO}/aron
 			mkdir -p ${MIDIR}/${DOMINIO}/hinject
 			mkdir -p ${MIDIR}/${DOMINIO}/xssb
 			mkdir -p ${MIDIR}/${DOMINIO}/sqli
@@ -364,7 +364,7 @@ else
 			}
 
 
-			funcion_aron () {
+			#funcion_aron () {
 				### busco parametros ###
 				echo "$(tput setab 1) [-] Aron$(tput sgr 0)"
 				cd ${MIDIR}/${DOMINIO}/aron
@@ -593,7 +593,7 @@ else
 			funcion_github
 			funcion_paramspider
 			funcion_urlsfull
-			funcion_aron
+			#funcion_aron
 			funcion_arjun
 			funcion_urlsfull_y_arjun
 			funcion_dalfox
