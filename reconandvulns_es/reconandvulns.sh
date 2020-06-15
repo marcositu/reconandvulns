@@ -527,7 +527,7 @@ else
 
 			    #smuggler
 				if [ -f "${MIDIR}/${DOMINIO}/smuggler/${DOMINIO}_smuggler.html" ]; then
-						capacidad1=$(grep -c '[CRITICAL]' <"${MIDIR}/${DOMINIO}/smuggler/${DOMINIO}_smuggler.html")
+						capacidad1=$(grep -c '\[CRITICAL\]' <"${MIDIR}/${DOMINIO}/smuggler/${DOMINIO}_smuggler.html")
 						if [ $capacidad1 != 0 ]; then
 							curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE SMUGGLER" >/dev/null 2>/dev/null
 							echo "$(tput setab 2)   [-] [TIENE SMUGGLER]$(tput sgr 0)"
