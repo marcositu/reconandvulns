@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 if [[ -z $1 ]]; then
 	 echo "$(tput setab 5) [+] Usage: $0 domain$(tput sgr 0)"
@@ -17,7 +17,7 @@ else
 		CHATID="XXXXXX"
 		BXSS="https://XXXXXX.xss.ht"
 		FFUFDIC=~/tools/reconandvulns/dicc.txt
-		ARONDIC=~/tools/reconandvulns/dictfull.txt
+		#ARONDIC=~/tools/reconandvulns/dictfull.txt
 		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "https://XXXXXX.xss.ht" ]]; then
 			echo "$(tput setab 5) [+] Modify the following variables in order to get the script working:$(tput sgr 0)"
 			echo "$(tput setab 5)  [-] MIDIR => linea 15$(tput sgr 0)"
@@ -45,7 +45,7 @@ else
 			mkdir -p ${MYDIR}/${DOMAIN}/gau
 			mkdir -p ${MYDIR}/${DOMAIN}/kxss
 			mkdir -p ${MYDIR}/${DOMAIN}/paramspider
-			mkdir -p ${MYDIR}/${DOMAIN}/aron
+			#mkdir -p ${MYDIR}/${DOMAIN}/aron
 			mkdir -p ${MYDIR}/${DOMAIN}/hinject
 			mkdir -p ${MYDIR}/${DOMAIN}/xssb
 			mkdir -p ${MYDIR}/${DOMAIN}/sqli
@@ -358,7 +358,7 @@ else
 			}
 
 
-			function_aron () {
+			#function_aron () {
 				echo "$(tput setab 1) [-] Aron$(tput sgr 0)"
 				cd ${MYDIR}/${DOMAIN}/aron
 				if [ -f "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt" ]; then
@@ -584,7 +584,7 @@ else
 			function_github
 			function_paramspider
 			function_urlsfull
-			function_aron
+			#function_aron
 			function_arjun
 			function_urlsfull_y_arjun
 			function_dalfox
@@ -602,3 +602,4 @@ else
 		fi
 	fi
 fi
+
