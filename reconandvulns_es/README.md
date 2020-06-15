@@ -14,8 +14,6 @@
     * **CHATID**: ID del chat y/o grupo de telegram
     * **BXSS**: Nuestra URL de xss.ht para probar Blind XSS
     * **FFUFDIC**: Diccionario que se usará para la herramienta ffuf
-    * **DIRBLISTA**: Diccionario que se usará para la herramienta dirb
-    * **ARONDIC**: Diccionario que se usará para la herramienta aron
 
 ```
 Uso: ./reconandvulns.sh http://testphp.vulnweb.com
