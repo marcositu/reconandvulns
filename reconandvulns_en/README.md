@@ -16,7 +16,6 @@
     * **BXSS**: Our URL from “xss.ht” for testing Blind XSS
     * **FFUFDIC**: Dictionary that will be used for the tool “ffuf”.
     * **DIRBLISTA**: Dictionary that will be used for the tool “dirb”
-    * **ARONDIC**: Dictionary that will be used for the tool “aron”
 
 ```
 Usage: ./reconandvulns.sh http://testphp.vulnweb.com
