@@ -17,7 +17,6 @@ else
 		CHATID="XXXXXX"
 		BXSS="XXXXXX.xss.ht"
 		FFUFDIC=~/tools/reconandvulns/dicc.txt
-		#ARONDIC=~/tools/reconandvulns/dictfull.txt
 
 		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "XXXXXX.xss.ht" ]]; then
 			echo "$(tput setab 5) [+] Modificar las siguientes variables para el funcionamiento del script$(tput sgr 0)"
@@ -46,7 +45,6 @@ else
 			mkdir -p ${MIDIR}/${DOMINIO}/gau
 			mkdir -p ${MIDIR}/${DOMINIO}/kxss
 			mkdir -p ${MIDIR}/${DOMINIO}/paramspider
-			#mkdir -p ${MIDIR}/${DOMINIO}/aron
 			mkdir -p ${MIDIR}/${DOMINIO}/hinject
 			mkdir -p ${MIDIR}/${DOMINIO}/xssb
 			mkdir -p ${MIDIR}/${DOMINIO}/sqli
@@ -364,24 +362,7 @@ else
 			}
 
 
-			#funcion_aron () {
-				### busco parametros ###
-				echo "$(tput setab 1) [-] Aron$(tput sgr 0)"
-				cd ${MIDIR}/${DOMINIO}/aron
-				if [ -f "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun.txt" ]; then
-					capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun.txt")
-
-					if [ $capacidad0 == 0 ]; then
-						echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
-					else
-
-						for DOM in $(cat "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun.txt"); do
-							Aron -u ${DOM} -g -w ${ARONDIC} >> ${DOMINIO}_aron.txt >/dev/null 2>/dev/null ;done
-						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
-					fi
-				fi	
-			}
-
+			
 
 			funcion_urlsfull_y_arjun () {
 				cd ${MIDIR}/${DOMINIO}/urlsfull
@@ -399,13 +380,7 @@ else
 							fi
 						fi
 
-						if [ -f "${MIDIR}/${DOMINIO}/aron/${DOMINIO}_aron.txt" ]; then
-							capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/aron/${DOMINIO}_aron.txt")
-							if [ $capacidad0 != 0 ]; then
-								grep 'URL =>' "${MIDIR}/${DOMINIO}/aron/${DOMINIO}_aron.txt" | cut -d '>' -f2 | sed 's/ //g' >> "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt"
-							fi
-						fi
-
+				
 						sort "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt" | uniq >> "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt"
 
 						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -540,19 +515,6 @@ else
 			    fi
 
 
-			   	#aron
-				if [ -f "${MIDIR}/${DOMINIO}/aron/${DOMINIO}_aron.txt" ]; then
-					capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/aron/${DOMINIO}_aron.txt")
-					if [ $capacidad0 != 0 ]; then
-						capacidad1=$(grep -c 'URL =>' <"${MIDIR}/${DOMINIO}/aron/${DOMINIO}_aron.txt")
-						if [ $capacidad1 != 0 ]; then
-						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE ARON" >/dev/null 2>/dev/null
-						echo "$(tput setab 2)   [-] [TIENE ARON]$(tput sgr 0)"
-						fi
-					fi
-			    fi
-
-
 				#zile
 				if [ -f "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" ]; then
 						capacidad1=$(grep -v '[+] ' -c <"${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html")
@@ -593,7 +555,6 @@ else
 			funcion_github
 			funcion_paramspider
 			funcion_urlsfull
-			#funcion_aron
 			funcion_arjun
 			funcion_urlsfull_y_arjun
 			funcion_dalfox
@@ -611,3 +572,4 @@ else
 		fi
 	fi
 fi
+
