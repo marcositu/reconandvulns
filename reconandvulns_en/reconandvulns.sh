@@ -1,4 +1,4 @@
- #!/bin/bash
+  #!/bin/bash
 
 if [[ -z $1 ]]; then
 	 echo "$(tput setab 5) [+] Usage: $0 domain$(tput sgr 0)"
@@ -17,7 +17,6 @@ else
 		CHATID="XXXXXX"
 		BXSS="https://XXXXXX.xss.ht"
 		FFUFDIC=~/tools/reconandvulns/dicc.txt
-		#ARONDIC=~/tools/reconandvulns/dictfull.txt
 		if [[ ${TELEAPI} = "XXXXXX" ]] || [[ ${CHATID} = "XXXXXX" ]] || [[ ${BXSS} = "https://XXXXXX.xss.ht" ]]; then
 			echo "$(tput setab 5) [+] Modify the following variables in order to get the script working:$(tput sgr 0)"
 			echo "$(tput setab 5)  [-] MIDIR => linea 15$(tput sgr 0)"
@@ -45,7 +44,6 @@ else
 			mkdir -p ${MYDIR}/${DOMAIN}/gau
 			mkdir -p ${MYDIR}/${DOMAIN}/kxss
 			mkdir -p ${MYDIR}/${DOMAIN}/paramspider
-			#mkdir -p ${MYDIR}/${DOMAIN}/aron
 			mkdir -p ${MYDIR}/${DOMAIN}/hinject
 			mkdir -p ${MYDIR}/${DOMAIN}/xssb
 			mkdir -p ${MYDIR}/${DOMAIN}/sqli
@@ -358,23 +356,7 @@ else
 			}
 
 
-			#function_aron () {
-				echo "$(tput setab 1) [-] Aron$(tput sgr 0)"
-				cd ${MYDIR}/${DOMAIN}/aron
-				if [ -f "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt" ]; then
-					capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt")
-
-					if [ $capacidad0 == 0 ]; then
-						echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
-					else
-
-						for DOM in $(cat "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt"); do
-							Aron -u ${DOM} -g -w ${ARONDIC} >> ${DOMAIN}_aron.txt >/dev/null 2>/dev/null ;done
-						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
-					fi
-				fi	
-			}
-
+			
 
 			function_urlsfull_y_arjun () {
 				cd ${MYDIR}/${DOMAIN}/urlsfull
@@ -389,13 +371,6 @@ else
 							capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun.txt")
 							if [ $capacidad0 != 0 ]; then
 								cat "${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun.txt" >> "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt"
-							fi
-						fi
-
-						if [ -f "${MYDIR}/${DOMAIN}/aron/${DOMAIN}_aron.txt" ]; then
-							capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/aron/${DOMAIN}_aron.txt")
-							if [ $capacidad0 != 0 ]; then
-								grep 'URL =>' "${MYDIR}/${DOMAIN}/aron/${DOMAIN}_aron.txt" | cut -d '>' -f2 | sed 's/ //g' >> "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt"
 							fi
 						fi
 
@@ -532,18 +507,6 @@ else
 			    fi
 
 
-			   	#aron
-				if [ -f "${MYDIR}/${DOMAIN}/aron/${DOMAIN}_aron.txt" ]; then
-					capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/aron/${DOMAIN}_aron.txt")
-					if [ $capacidad0 != 0 ]; then
-						capacidad1=$(grep -c 'URL =>' <"${MYDIR}/${DOMAIN}/aron/${DOMAIN}_aron.txt")
-						if [ $capacidad1 != 0 ]; then
-						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMAIN} => With ARON" >/dev/null 2>/dev/null
-						echo "$(tput setab 2)   [-] [With ARON]$(tput sgr 0)"
-						fi
-					fi
-			    fi
-
 			    #zile
 				if [ -f "${MYDIR}/${DOMAIN}/zile/${DOMAIN}_zile.html" ]; then
 						capacidad1=$(grep -v '[+] ' -c <"${MYDIR}/${DOMAIN}/zile/${DOMAIN}_zile.html")
@@ -584,7 +547,6 @@ else
 			function_github
 			function_paramspider
 			function_urlsfull
-			#function_aron
 			function_arjun
 			function_urlsfull_y_arjun
 			function_dalfox
