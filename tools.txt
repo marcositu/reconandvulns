@@ -93,9 +93,6 @@ git clone https://github.com/devanshbatham/ParamSpider
 cd ParamSpider
 pip3 install -r requirements.txt
 
-#Aron
-go get -u github.com/m4ll0k/Aron
-
 #github-search
 cd ~/tools/
 git clone https://github.com/gwen001/github-search
