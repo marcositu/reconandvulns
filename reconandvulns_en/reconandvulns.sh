@@ -65,7 +65,7 @@ else
 
 			function_zile () {
 				cd ${MIDIR}/${DOMINIO}/zile
-				cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMINIO}_zile.txt 2>/dev/null
+				cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMINIO}_zile.txt 2>/dev/null
 				cat ${DOMINIO}_zile.txt | ansi2html > ${DOMINIO}_zile.html
 				rm ${DOMINIO}_zile.txt
 			}
