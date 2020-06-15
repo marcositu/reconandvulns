@@ -64,10 +64,10 @@ else
 			}
 
 			function_zile () {
-				cd ${MIDIR}/${DOMINIO}/zile
-				cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMINIO}_zile.txt 2>/dev/null
-				cat ${DOMINIO}_zile.txt | ansi2html > ${DOMINIO}_zile.html
-				rm ${DOMINIO}_zile.txt
+				cd ${MYDIR}/${DOMAIN}/zile
+				cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMAIN}_zile.txt 2>/dev/null
+				cat ${DOMAIN}_zile.txt | ansi2html > ${DOMAIN}_zile.html
+				rm ${DOMAIN}_zile.txt
 			}
 
 			function_xssbb() {
