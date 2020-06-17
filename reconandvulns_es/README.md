@@ -6,7 +6,7 @@
 
 # Consideraciones
 * Se puede utilizar el archivo **tools.txt** para instalar las **herramientas** necesarias y configurar las **API**:
-  * dirb, naabu, waybackurls, hakrawler, linkFinder, arjun, eyewitness, XSStrike, dalfox, ffuf, gau, kxss, paramspider, aron, hinject, colorized-logs, github-search, screen, curl, zile, smuggler y DSSS.
+  * naabu, waybackurls, hakrawler, linkFinder, arjun, eyewitness, XSStrike, dalfox, ffuf, gau, kxss, paramspider, hinject, colorized-logs, github-search, screen, curl, zile, smuggler y DSSS.
   * Se debe tener un grupo o chat de telegram para que funcionen las notificaciones.
   * Se deben modificar las siguientes variables:
     * **MIDIR**: Directorio de trabajo
@@ -60,10 +60,6 @@ https://github.com/devanshbatham/ParamSpider
 
 ## funcion_urlsfull ##
 Se realiza un sort|uniq de todo lo recolectado
-
-## funcion_aron ##
-Buscamos parámtetros en las URLs mediante la herramienta Aron
-https://github.com/m4ll0k/Aron
 
 ## funcion_arjun ##
 Buscamos parámtetros en las URLs mediante la herramienta Arjun
