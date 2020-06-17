@@ -1,5 +1,5 @@
 # reconandvulns
-[![bash](https://img.shields.io/badge/bash-bash-green)](https://github.com/marcositu/reconandvulns/tree/master/)
+[![bash](https://img.shields.io/badge/-bash-bash)](https://github.com/marcositu/reconandvulns/tree/master/)
 
 As a first step we try to obtain as many subdomains as possible (***onlydomain.sh***) and by using diferent tools, we run an analysis on each one separately (***reconandvulns.sh***).
 
