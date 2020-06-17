@@ -1,4 +1,6 @@
 # reconandvulns
+[![bash](https://img.shields.io/badge/bash-bash-green)](https://github.com/marcositu/reconandvulns/tree/master/)
+
 As a first step we try to obtain as many subdomains as possible (***onlydomain.sh***) and by using diferent tools, we run an analysis on each one separately (***reconandvulns.sh***).
 
 To run these scripts, you must install the tools. The procedure to install the tools is on the ***tools.txt*** file.
