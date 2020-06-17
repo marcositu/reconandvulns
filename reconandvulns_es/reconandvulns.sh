@@ -380,8 +380,8 @@ else
 							fi
 						fi
 
-				
-						sort "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt" | uniq >> "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt"
+						
+						egrep -i -v -E '"|\[|\{|\]|\}' "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt" | sort  -u >> "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt"
 
 						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 					fi
@@ -572,4 +572,5 @@ else
 		fi
 	fi
 fi
+
 
