@@ -1,4 +1,4 @@
-  #!/bin/bash
+   #!/bin/bash
 
 if [[ -z $1 ]]; then
 	 echo "$(tput setab 5) [+] Usage: $0 domain$(tput sgr 0)"
@@ -374,7 +374,7 @@ else
 							fi
 						fi
 
-						sort "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt" | uniq >> "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt"
+						egrep -i -v -E '"|\[|\{|\]|\}' "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt" | sort -u >> "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt"
 
 						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 					fi
@@ -564,4 +564,3 @@ else
 		fi
 	fi
 fi
-
