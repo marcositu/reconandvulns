@@ -34,7 +34,6 @@ else
 			mkdir -p ${MYDIR}/${DOMAIN}/hakrawler
 			mkdir -p ${MYDIR}/${DOMAIN}/urls_interesting
 			mkdir -p ${MYDIR}/${DOMAIN}/linkFinder
-			mkdir -p ${MYDIR}/${DOMAIN}/arjun
 			mkdir -p ${MYDIR}/${DOMAIN}/eyewitness
 			mkdir -p ${MYDIR}/${DOMAIN}/github
 			mkdir -p ${MYDIR}/${DOMAIN}/XSStrike
@@ -65,7 +64,7 @@ else
 
 			function_zile () {
 				cd ${MYDIR}/${DOMAIN}/zile
-				cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMAIN}_zile.txt 2>/dev/null
+				cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_attack_pre_alive.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMAIN}_zile.txt 2>/dev/null
 				cat ${DOMAIN}_zile.txt | ansi2html > ${DOMAIN}_zile.html
 				rm ${DOMAIN}_zile.txt
 			}
@@ -75,7 +74,7 @@ else
 				### xssb ###
 				cd ${MYDIR}/${DOMAIN}/xssb
 				if [ -f ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt ]; then
-					cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt | qsreplace -a | dalfox pipe -b ${BXSS} -o ${DOMAIN}_xssb.txt >/dev/null 2>/dev/null 
+					cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt | qsreplace -a | dalfox --timeout 5 -w 50 pipe -b ${BXSS} -o ${DOMAIN}_xssb.txt >/dev/null 2>/dev/null 
 					cat ${DOMAIN}_xssb.txt | ansi2html > ${DOMAIN}_xssb.html
 					rm ${DOMAIN}_xssb.txt
 					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -178,7 +177,7 @@ else
 				### ffuf (busco dirs) ###
 				echo "$(tput setab 1) [-] ffuf$(tput sgr 0)"
 				cd ${MYDIR}/${DOMAIN}/ffuf
-				ffuf -mc all -c -H "X-Forwarded-For: 127.0.0.1" -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0" -u "${WEB}"/FUZZ -w ${FFUFDIC} -D -e js,php,bak,txt,asp,aspx,jsp,html,zip,jar,sql,json,old,gz,shtml,log,swp,yaml,yml,config,save,rsa,ppk -ac -s -o ${DOMAIN}_ffuf_partial.txt >/dev/null 2>/dev/null
+				ffuf -timeout 5 -fs 4242 -mc 200 -c -H "X-Forwarded-For: 127.0.0.1" -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0" -u "${WEB}"/FUZZ -w ${FFUFDIC} -D -e js,php,bak,txt,asp,aspx,jsp,html,zip,jar,sql,json,old,gz,shtml,log,swp,yaml,yml,config,save,rsa,ppk -ac -s -o ${DOMAIN}_ffuf_partial.txt >/dev/null 2>/dev/null
 				if [ -f "${DOMAIN}_ffuf_partial.txt" ]; then
 					cat ${DOMAIN}_ffuf_partial.txt| jq '[.results[]|{status: .status, length: .length, url: .url}]' | grep -oP "status\":\s(\d{3})|length\":\s(\d{1,7})|url\":\s\"(http[s]?:\/\/.*?)\"" | paste -d' ' - - - | awk '{print $2" "$4" "$6}' | sed 's/\"//g' > ${DOMAIN}_ffuf_final.txt
 					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -193,7 +192,7 @@ else
 					if [ $capacidad0 == 0 ]; then
 						echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
 					else
-						cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt | qsreplace -a | dalfox pipe -o ${DOMAIN}_dalfox.txt >/dev/null 2>/dev/null
+						cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt | qsreplace -a | dalfox --timeout 5 -w 50 pipe -o ${DOMAIN}_dalfox.txt >/dev/null 2>/dev/null
 						cat ${DOMAIN}_dalfox.txt | ansi2html > ${DOMAIN}_dalfox.html
 						rm ${DOMAIN}_dalfox.txt 
 						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -256,7 +255,7 @@ else
 				else
 		            WithJS=`grep -i js ${MYDIR}/${DOMAIN}/js/${DOMAIN}_hakcheckurl_final.txt -c`
 					if [ ${WithJS} -ne 0 ]; then
-		                wget –quiet -i ${MYDIR}/${DOMAIN}/js/${DOMAIN}_hakcheckurl_final.txt >/dev/null 2>/dev/null
+						cat ${MYDIR}/${DOMAIN}/js/${DOMAIN}_hakcheckurl_final.txt | xargs -P40 -n1 -I{} sh -c "wget {} –quiet" >/dev/null
 		                grep -i --color=always -n -E 'document.URL|document.documentURI|location|location.href|location.search|location.hash|document.referrer|window.name|eval|setTimeout|setInterval|document.write|document.writeIn|innerHTML|outerHTML' *.js* | ansi2html > dom_xss.html
 		                grep -i --color=always -n -E '[ht|f]tp[s]*:\/\/\w+' *.js* | ansi2html > possible_webs.html
 		                grep -i --color=always -n -E 'pass|contrase|key|clave|code|phrase|b64|base64|hash|md5' *.js* | ansi2html > possible_claves_hashs.html
@@ -319,11 +318,11 @@ else
 
 				sort ${DOMAIN}_urlsfull_partial.txt | uniq >> ${DOMAIN}_urlsfull_final.txt
 
-				egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|ico|pdf|svg|bmp|eot|ico|js)" ${DOMAIN}_urlsfull_final.txt >> ${DOMAIN}_urlsfull_final_for_arjun_pre.txt
-				cat ${DOMAIN}_urlsfull_final_for_arjun_pre.txt | hakcheckurl 2>/dev/null | grep '^200' | sed 's/200 //g' >> ${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt
-				grep "?" ${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt | grep -v '%EF%BF%BD' >> ${DOMAIN}_urlsfull_final_parameters.txt
-				grep -Ei '(\.php|\.asp|\.aspx|\.jsp|\.jsf|\.do|\.html|\.htm|\.xhtml)' ${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt >> ${DOMAIN}_urlsfull_final_for_arjun.txt
-				rm ${DOMAIN}_urlsfull_final_for_arjun_pre.txt
+				egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|ico|pdf|svg|bmp|eot|ico|js)" ${DOMAIN}_urlsfull_final.txt >> ${DOMAIN}_urlsfull_final_for_attack_pre.txt
+				cat ${DOMAIN}_urlsfull_final_for_attack_pre.txt | hakcheckurl 2>/dev/null | grep '^200' | sed 's/200 //g' >> ${DOMAIN}_urlsfull_final_for_attack_pre_alive.txt
+				grep "?" ${DOMAIN}_urlsfull_final_for_attack_pre_alive.txt | grep -v '%EF%BF%BD' >> ${DOMAIN}_urlsfull_final_parameters.txt
+				grep -Ei '(\.php|\.asp|\.aspx|\.jsp|\.jsf|\.do|\.html|\.htm|\.xhtml)' ${DOMAIN}_urlsfull_final_for_attack_pre_alive.txt >> ${DOMAIN}_urlsfull_final_for_attack.txt
+				rm ${DOMAIN}_urlsfull_final_for_attack_pre.txt
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
@@ -335,42 +334,25 @@ else
 					echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
 				else
 					cd ${MYDIR}/${DOMAIN}/eyewitness
-					python3 ~/tools/EyeWitness/Python/EyeWitness.py --web --timeout 20 --delay 3 --threads 2 -f ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun_pre_alive.txt --no-prompt -d screens >/dev/null 2>/dev/null
+					python3 ~/tools/EyeWitness/Python/EyeWitness.py --web --timeout 20 --delay 3 --threads 2 -f ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_attack_pre_alive.txt --no-prompt -d screens >/dev/null 2>/dev/null
 					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 				fi
 			}
 
-			function_arjun () {
-				echo "$(tput setab 1) [-] arjun$(tput sgr 0)"
-				if [ -f "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt" ]; then
-					capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt")
 
-					if [ $capacidad0 == 0 ]; then
-						echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
-					else
-						cd ~/tools/Arjun
-						python3 arjun.py -t 2 -d 2 --get --stable --urls "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_arjun.txt" -o "${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun.txt" >> "${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun_2.txt" 2>/dev/null
-						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
-					fi
-				fi	
-			}
-
-
-			
-
-			function_urlsfull_y_arjun () {
+			function_urlsfull_y_attack () {
 				cd ${MYDIR}/${DOMAIN}/urlsfull
-				echo "$(tput setab 1) [-] urlsfull_y_arjun (merge urls)$(tput sgr 0)"
+				echo "$(tput setab 1) [-] urlsfull_y_attack (merge urls)$(tput sgr 0)"
 				if [ -f "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt" ]; then
 					capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt")
 					if [ $capacidad0 == 0 ]; then
 						echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
 					else
 						cp "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt" ${DOMAIN}_urlsfull_final_parameters_final.txt
-						if [ -f "${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun.txt" ]; then
-							capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun.txt")
+						if [ -f "${MYDIR}/${DOMAIN}/attack/${DOMAIN}_attack.txt" ]; then
+							capacidad0=$(wc -c <"${MYDIR}/${DOMAIN}/attack/${DOMAIN}_attack.txt")
 							if [ $capacidad0 != 0 ]; then
-								cat "${MYDIR}/${DOMAIN}/arjun/${DOMAIN}_arjun.txt" >> "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt"
+								cat "${MYDIR}/${DOMAIN}/attack/${DOMAIN}_attack.txt" >> "${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters.txt"
 							fi
 						fi
 
@@ -547,8 +529,7 @@ else
 			function_github
 			function_paramspider
 			function_urlsfull
-			function_arjun
-			function_urlsfull_y_arjun
+			function_urlsfull_y_attack
 			function_dalfox
 			function_screenshots
 			function_downloadjs
