@@ -35,7 +35,6 @@ else
 			mkdir -p ${MIDIR}/${DOMINIO}/hakrawler
 			mkdir -p ${MIDIR}/${DOMINIO}/urls_interesantes
 			mkdir -p ${MIDIR}/${DOMINIO}/linkFinder
-			mkdir -p ${MIDIR}/${DOMINIO}/arjun
 			mkdir -p ${MIDIR}/${DOMINIO}/eyewitness
 			mkdir -p ${MIDIR}/${DOMINIO}/github
 			mkdir -p ${MIDIR}/${DOMINIO}/XSStrike
@@ -67,7 +66,7 @@ else
 
 			funcion_zile () {
 				cd ${MIDIR}/${DOMINIO}/zile
-				cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun_pre_vivas.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMINIO}_zile.txt 2>/dev/null
+				cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_ataque_pre_vivas.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMINIO}_zile.txt 2>/dev/null
 				cat ${DOMINIO}_zile.txt | ansi2html > ${DOMINIO}_zile.html
 				rm ${DOMINIO}_zile.txt
 			}
@@ -77,7 +76,7 @@ else
 				### xssb ###
 				cd ${MIDIR}/${DOMINIO}/xssb
 				if [ -f ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt ]; then
-					cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt | qsreplace -a | dalfox pipe -b ${BXSS} -o ${DOMINIO}_xssb.txt >/dev/null 2>/dev/null 
+					cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt | qsreplace -a | dalfox --timeout 5 -w 50 pipe -b ${BXSS} -o ${DOMINIO}_xssb.txt >/dev/null 2>/dev/null 
 					cat ${DOMINIO}_xssb.txt | ansi2html > ${DOMINIO}_xssb.html
 					rm ${DOMINIO}_xssb.txt
 					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -180,7 +179,7 @@ else
 				### ffuf (busco dirs) ###
 				echo "$(tput setab 1) [-] ffuf (busco dirs)$(tput sgr 0)"
 				cd ${MIDIR}/${DOMINIO}/ffuf
-				ffuf -mc all -c -H "X-Forwarded-For: 127.0.0.1" -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0" -u "${WEB}"/FUZZ -w ${FFUFDIC} -D -e js,php,bak,txt,asp,aspx,jsp,html,zip,jar,sql,json,old,gz,shtml,log,swp,yaml,yml,config,save,rsa,ppk -ac -s -o ${DOMINIO}_ffuf_parcial.txt >/dev/null 2>/dev/null
+				ffuf -timeout 5 -fs 4242 -mc 200 -c -H "X-Forwarded-For: 127.0.0.1" -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0" -u "${WEB}"/FUZZ -w ${FFUFDIC} -D -e js,php,bak,txt,asp,aspx,jsp,html,zip,jar,sql,json,old,gz,shtml,log,swp,yaml,yml,config,save,rsa,ppk -ac -s -o ${DOMINIO}_ffuf_parcial.txt >/dev/null 2>/dev/null
 				if [ -f "${DOMINIO}_ffuf_parcial.txt" ]; then
 					cat ${DOMINIO}_ffuf_parcial.txt| jq '[.results[]|{status: .status, length: .length, url: .url}]' | grep -oP "status\":\s(\d{3})|length\":\s(\d{1,7})|url\":\s\"(http[s]?:\/\/.*?)\"" | paste -d' ' - - - | awk '{print $2" "$4" "$6}' | sed 's/\"//g' > ${DOMINIO}_ffuf_final.txt
 					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -195,7 +194,7 @@ else
 					if [ $capacidad0 == 0 ]; then
 						echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
 					else
-						cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt | qsreplace -a | dalfox pipe -o ${DOMINIO}_dalfox.txt >/dev/null 2>/dev/null
+						cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt | qsreplace -a | dalfox --timeout 5 -w 50 pipe -o ${DOMINIO}_dalfox.txt >/dev/null 2>/dev/null
 						cat ${DOMINIO}_dalfox.txt | ansi2html > ${DOMINIO}_dalfox.html
 						rm ${DOMINIO}_dalfox.txt 
 						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
@@ -259,7 +258,7 @@ else
 				else
 		            TIENEJS=`grep -i js ${MIDIR}/${DOMINIO}/js/${DOMINIO}_hakcheckurl_final.txt -c`
 					if [ ${TIENEJS} -ne 0 ]; then
-		                wget –quiet -i ${MIDIR}/${DOMINIO}/js/${DOMINIO}_hakcheckurl_final.txt >/dev/null 2>/dev/null
+						cat ${MIDIR}/${DOMINIO}/js/${DOMINIO}_hakcheckurl_final.txt | xargs -P40 -n1 -I{} sh -c "wget {} –quiet" >/dev/null
 		                grep -i --color=always -n -E 'document.URL|document.documentURI|location|location.href|location.search|location.hash|document.referrer|window.name|eval|setTimeout|setInterval|document.write|document.writeIn|innerHTML|outerHTML' *.js* | ansi2html > dom_xss.html
 		                grep -i --color=always -n -E '[ht|f]tp[s]*:\/\/\w+' *.js* | ansi2html > posibles_webs.html
 		                grep -i --color=always -n -E 'pass|contrase|key|clave|code|phrase|b64|base64|hash|md5' *.js* | ansi2html > posibles_claves_hashs.html
@@ -322,12 +321,12 @@ else
 
 				sort ${DOMINIO}_urlsfull_parcial.txt | uniq >> ${DOMINIO}_urlsfull_final.txt
 
-				# estas van para arjun
-				egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|ico|pdf|svg|bmp|eot|ico|js)" ${DOMINIO}_urlsfull_final.txt >> ${DOMINIO}_urlsfull_final_para_arjun_pre.txt
-				cat ${DOMINIO}_urlsfull_final_para_arjun_pre.txt | hakcheckurl 2>/dev/null | grep '^200' | sed 's/200 //g' >> ${DOMINIO}_urlsfull_final_para_arjun_pre_vivas.txt
-				grep "?" ${DOMINIO}_urlsfull_final_para_arjun_pre_vivas.txt | grep -v '%EF%BF%BD' >> ${DOMINIO}_urlsfull_final_parametros.txt
-				grep -Ei '(\.php|\.asp|\.aspx|\.jsp|\.jsf|\.do|\.html|\.htm|\.xhtml)' ${DOMINIO}_urlsfull_final_para_arjun_pre_vivas.txt >> ${DOMINIO}_urlsfull_final_para_arjun.txt
-				rm ${DOMINIO}_urlsfull_final_para_arjun_pre.txt
+				# estas van para ataque
+				egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|ico|pdf|svg|bmp|eot|ico|js|mp3|mp4|webm)" ${DOMINIO}_urlsfull_final.txt >> ${DOMINIO}_urlsfull_final_para_ataque_pre.txt
+				cat ${DOMINIO}_urlsfull_final_para_ataque_pre.txt | hakcheckurl 2>/dev/null | grep '^200' | sed 's/200 //g' >> ${DOMINIO}_urlsfull_final_para_ataque_pre_vivas.txt
+				grep "?" ${DOMINIO}_urlsfull_final_para_ataque_pre_vivas.txt | grep -v '%EF%BF%BD' >> ${DOMINIO}_urlsfull_final_parametros.txt
+				grep -Ei '(\.php|\.asp|\.aspx|\.jsp|\.jsf|\.do|\.html|\.htm|\.xhtml)' ${DOMINIO}_urlsfull_final_para_ataque_pre_vivas.txt >> ${DOMINIO}_urlsfull_final_para_ataque.txt
+				rm ${DOMINIO}_urlsfull_final_para_ataque_pre.txt
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
@@ -340,43 +339,24 @@ else
 					echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
 				else
 					cd ${MIDIR}/${DOMINIO}/eyewitness
-					python3 ~/tools/EyeWitness/Python/EyeWitness.py --web --timeout 20 --delay 3 --threads 2 -f ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun_pre_vivas.txt --no-prompt -d screens >/dev/null 2>/dev/null
+					python3 ~/tools/EyeWitness/Python/EyeWitness.py --web --timeout 20 --delay 3 --threads 2 -f ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_ataque_pre_vivas.txt --no-prompt -d screens >/dev/null 2>/dev/null
 					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 				fi
-			}
+			}	
 
-			funcion_arjun () {
-				### busco parametros ###
-				echo "$(tput setab 1) [-] arjun$(tput sgr 0)"
-				if [ -f "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun.txt" ]; then
-					capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun.txt")
-
-					if [ $capacidad0 == 0 ]; then
-						echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
-					else
-						cd ~/tools/Arjun
-						python3 arjun.py -t 2 -d 2 --get --stable --urls "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_arjun.txt" -o "${MIDIR}/${DOMINIO}/arjun/${DOMINIO}_arjun.txt" >> "${MIDIR}/${DOMINIO}/arjun/${DOMINIO}_arjun_2.txt" 2>/dev/null
-						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
-					fi
-				fi	
-			}
-
-
-			
-
-			funcion_urlsfull_y_arjun () {
+			funcion_urlsfull_y_ataque () {
 				cd ${MIDIR}/${DOMINIO}/urlsfull
-				echo "$(tput setab 1) [-] urlsfull_y_arjun (merge urls)$(tput sgr 0)"
+				echo "$(tput setab 1) [-] urlsfull_y_ataque (merge urls)$(tput sgr 0)"
 				if [ -f "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt" ]; then
 					capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt")
 					if [ $capacidad0 == 0 ]; then
 						echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
 					else
 						cp "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt" ${DOMINIO}_urlsfull_final_parametros_final.txt
-						if [ -f "${MIDIR}/${DOMINIO}/arjun/${DOMINIO}_arjun.txt" ]; then
-							capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/arjun/${DOMINIO}_arjun.txt")
+						if [ -f "${MIDIR}/${DOMINIO}/ataque/${DOMINIO}_ataque.txt" ]; then
+							capacidad0=$(wc -c <"${MIDIR}/${DOMINIO}/ataque/${DOMINIO}_ataque.txt")
 							if [ $capacidad0 != 0 ]; then
-								cat "${MIDIR}/${DOMINIO}/arjun/${DOMINIO}_arjun.txt" >> "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt"
+								cat "${MIDIR}/${DOMINIO}/ataque/${DOMINIO}_ataque.txt" >> "${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros.txt"
 							fi
 						fi
 
@@ -555,8 +535,7 @@ else
 			funcion_github
 			funcion_paramspider
 			funcion_urlsfull
-			funcion_arjun
-			funcion_urlsfull_y_arjun
+			funcion_urlsfull_y_ataque
 			funcion_dalfox
 			funcion_screenshots
 			funcion_descargojs
@@ -572,5 +551,7 @@ else
 		fi
 	fi
 fi
+
+
 
 
