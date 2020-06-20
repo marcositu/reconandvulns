@@ -497,8 +497,6 @@ else
 							echo "$(tput setab 2)   [-] [With ZILE]$(tput sgr 0)"
 						fi
 					fi
-			    fi
-
 
 			    #smuggler
 				if [ -f "${MYDIR}/${DOMAIN}/smuggler/${DOMAIN}_smuggler.html" ]; then
