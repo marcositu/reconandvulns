@@ -157,6 +157,9 @@ pip3 install -r requirements.txt
 cd ~/tools/
 git clone https://github.com/xyele/zile
 
+#fprobe
+GO111MODULE=on go get -u github.com/theblackturtle/fprobe
+
 #smuggler
 cd ~/tools/
 https://github.com/defparam/smuggler
