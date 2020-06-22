@@ -58,17 +58,21 @@ else
 			}
 
 			funcion_smuggler () {
+				echo "$(tput setab 1) [-] smuggler$(tput sgr 0)"
 				cd ${MIDIR}/${DOMINIO}/smuggler
 				python3 ~/tools/smuggler/smuggler.py -u ${WEB} -l ${DOMINIO}_smuggler.txt >/dev/null 2>/dev/null
 				cat ${DOMINIO}_smuggler.txt | ansi2html > ${DOMINIO}_smuggler.html
 				rm ${DOMINIO}_smuggler.txt
+				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
 			funcion_zile () {
+				echo "$(tput setab 1) [-] zile$(tput sgr 0)"
 				cd ${MIDIR}/${DOMINIO}/zile
 				cat ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_para_ataque_pre_vivas.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMINIO}_zile.txt 2>/dev/null
 				cat ${DOMINIO}_zile.txt | ansi2html > ${DOMINIO}_zile.html
 				rm ${DOMINIO}_zile.txt
+				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
 			funcion_xssbb() {
