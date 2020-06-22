@@ -280,7 +280,7 @@ else
 				echo "$(tput setab 1) [-] Analizo JS (linkFinder)$(tput sgr 0)"
 				### Analizo JS ###
 				cd ${MIDIR}/${DOMINIO}/linkFinder
-				python ~/tools/LinkFinder/linkfinder.py -i "${MIDIR}/${DOMINIO}/js/js/*.js" -o ${MIDIR}/${DOMINIO}/linkFinder/linkFinder.html >/dev/null 2>/dev/null
+				python3 ~/tools/LinkFinder/linkfinder.py -i "${MIDIR}/${DOMINIO}/js/js/*.js" -o ${MIDIR}/${DOMINIO}/linkFinder/linkFinder.html >/dev/null 2>/dev/null
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
@@ -289,7 +289,7 @@ else
 				echo "$(tput setab 1) [-] Analizo JS (SecretFinder)$(tput sgr 0)"
 				### Analizo JS ###
 				cd ${MIDIR}/${DOMINIO}/SecretFinder
-				python ~/tools/secretfinder/SecretFinder.py -i "${WEB}/" -e -o ${MIDIR}/${DOMINIO}/secretfinder/SecretFinder.html >/dev/null 2>/dev/null
+				python3 ~/tools/secretfinder/SecretFinder.py -i "${WEB}/" -e -o ${MIDIR}/${DOMINIO}/secretfinder/SecretFinder.html >/dev/null 2>/dev/null
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
