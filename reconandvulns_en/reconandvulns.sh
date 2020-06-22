@@ -56,17 +56,21 @@ else
 			}
 
 			function_smuggler () {
+				echo "$(tput setab 1) [-] smuggler$(tput sgr 0)"
 				cd ${MYDIR}/${DOMAIN}/smuggler
 				python3 ~/tools/smuggler/smuggler.py -u ${WEB} -l ${DOMAIN}_smuggler.txt >/dev/null 2>/dev/null
 				cat ${DOMAIN}_smuggler.txt | ansi2html > ${DOMAIN}_smuggler.html
 				rm ${DOMAIN}_smuggler.txt
+				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
 			function_zile () {
+				echo "$(tput setab 1) [-] zile$(tput sgr 0)"
 				cd ${MYDIR}/${DOMAIN}/zile
 				cat ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_for_attack_pre_alive.txt | python3 ~/tools/zile/zile.py --request --colored >> ${DOMAIN}_zile.txt 2>/dev/null
 				cat ${DOMAIN}_zile.txt | ansi2html > ${DOMAIN}_zile.html
 				rm ${DOMAIN}_zile.txt
+				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
 			function_xssbb() {
