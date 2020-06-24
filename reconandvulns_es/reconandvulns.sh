@@ -262,7 +262,7 @@ else
 				else
 		            TIENEJS=`grep -i js ${MIDIR}/${DOMINIO}/js/${DOMINIO}_hakcheckurl_final.txt -c`
 					if [ ${TIENEJS} -ne 0 ]; then
-						cat ${MIDIR}/${DOMINIO}/js/${DOMINIO}_hakcheckurl_final.txt | xargs -P40 -n1 -I{} sh -c "wget {} –quiet" >/dev/null
+						cat ${MIDIR}/${DOMINIO}/js/${DOMINIO}_hakcheckurl_final.txt | xargs -P40 -n1 -I{} sh -c "wget -q --no-check-certificate {}" >/dev/null
 		                grep -i --color=always -n -E 'document.URL|document.documentURI|location|location.href|location.search|location.hash|document.referrer|window.name|eval|setTimeout|setInterval|document.write|document.writeIn|innerHTML|outerHTML' *.js* | ansi2html > dom_xss.html
 		                grep -i --color=always -n -E '[ht|f]tp[s]*:\/\/\w+' *.js* | ansi2html > posibles_webs.html
 		                grep -i --color=always -n -E 'pass|contrase|key|clave|code|phrase|b64|base64|hash|md5' *.js* | ansi2html > posibles_claves_hashs.html
