@@ -547,7 +547,7 @@ else
 			funcion_SecretFinder
 			funcion_kxss
 			funcion_xssbb
-			funcion_sqli
+			#funcion_sqli
 			funcion_sratarun
 			funcion_smuggler
 			funcion_zile
