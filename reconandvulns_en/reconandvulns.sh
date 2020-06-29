@@ -539,7 +539,7 @@ else
 			function_SecretFinder
 			function_kxss
 			function_xssbb
-			function_sqli
+			#function_sqli
 			function_sratarun
 			function_smuggler
 			function_zile
