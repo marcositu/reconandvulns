@@ -213,7 +213,7 @@ else
 				echo "$(tput setab 1) [-] XSStrike$(tput sgr 0)"
 				### XSStrike ###
 				cd ${MIDIR}/${DOMINIO}/XSStrike
-				python3 ~/tools/XSStrike/xsstrike.py -u "${WEB}" -d 2 -t 10 --crawl -l 3 --params --file-log-level VULN --seeds ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt --log-file ${DOMINIO}_xsstrike.txt >/dev/null 2>/dev/null
+				python3 ~/tools/XSStrike/xsstrike.py -u "${WEB}" -d 2 -t 10 --timeout 5 --skip -l 1 --file-log-level VULN --seeds ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt --log-file ${DOMINIO}_xsstrike.txt >/dev/null 2>/dev/null
 				if [ -f ${MIDIR}/${DOMINIO}/XSStrike/${DOMINIO}_xsstrike.txt ]; then
 					cat ${MIDIR}/${DOMINIO}/XSStrike/${DOMINIO}_xsstrike.txt | ansi2html > ${DOMINIO}_xsstrike.html
 					rm ${DOMINIO}_xsstrike.txt
