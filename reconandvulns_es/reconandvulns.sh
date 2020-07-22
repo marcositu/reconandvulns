@@ -213,11 +213,15 @@ else
 				echo "$(tput setab 1) [-] XSStrike$(tput sgr 0)"
 				### XSStrike ###
 				cd ${MIDIR}/${DOMINIO}/XSStrike
-				python3 ~/tools/XSStrike/xsstrike.py -u "${WEB}" -d 2 -t 10 --timeout 5 --skip -l 1 --file-log-level VULN --seeds ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt --log-file ${DOMINIO}_xsstrike.txt >/dev/null 2>/dev/null
-				if [ -f ${MIDIR}/${DOMINIO}/XSStrike/${DOMINIO}_xsstrike.txt ]; then
-					cat ${MIDIR}/${DOMINIO}/XSStrike/${DOMINIO}_xsstrike.txt | ansi2html > ${DOMINIO}_xsstrike.html
-					rm ${DOMINIO}_xsstrike.txt
-					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
+				if [ -f ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt ]; then
+					python3 ~/tools/XSStrike/xsstrike.py -u "${WEB}" -d 2 -t 10 --timeout 5 --skip -l 1 --file-log-level VULN --seeds ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt --log-file ${DOMINIO}_xsstrike.txt >/dev/null 2>/dev/null
+					if [ -f ${MIDIR}/${DOMINIO}/XSStrike/${DOMINIO}_xsstrike.txt ]; then
+						cat ${MIDIR}/${DOMINIO}/XSStrike/${DOMINIO}_xsstrike.txt | ansi2html > ${DOMINIO}_xsstrike.html
+						rm ${DOMINIO}_xsstrike.txt
+						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
+					else
+						echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
+					fi
 				else
 					echo "$(tput setab 5)   [-] [NO hay URLs]$(tput sgr 0)"
 				fi
@@ -289,7 +293,7 @@ else
 				echo "$(tput setab 1) [-] Analizo JS (SecretFinder)$(tput sgr 0)"
 				### Analizo JS ###
 				cd ${MIDIR}/${DOMINIO}/SecretFinder
-				python3 ~/tools/secretfinder/SecretFinder.py -i "${WEB}/" -e -o ${MIDIR}/${DOMINIO}/secretfinder/SecretFinder.html >/dev/null 2>/dev/null
+				python3 ~/tools/secretfinder/SecretFinder.py -i "${WEB}/" -e -o ${MIDIR}/${DOMINIO}/SecretFinder/SecretFinder.html >/dev/null 2>/dev/null
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
@@ -461,10 +465,12 @@ else
 				fi
 
 				#eyewitness
-				ls "${MIDIR}/${DOMINIO}/eyewitness/screens/report.html" >/dev/null 2>/dev/null
-				if [ $? -eq 0 ]; then
-					curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE SCREENSHOTS" >/dev/null 2>/dev/null
-					echo "$(tput setab 2)   [-] [TIENE SCREENSHOTS]$(tput sgr 0)"
+				if [ -f "${MIDIR}/${DOMINIO}/eyewitness/screens/report.html" ]; then
+					ls "${MIDIR}/${DOMINIO}/eyewitness/screens/report.html" >/dev/null 2>/dev/null
+					if [ $? -eq 0 ]; then
+						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE SCREENSHOTS" >/dev/null 2>/dev/null
+						echo "$(tput setab 2)   [-] [TIENE SCREENSHOTS]$(tput sgr 0)"
+					fi
 				fi
 
 				#dalfox
@@ -501,8 +507,8 @@ else
 
 				#zile
 				if [ -f "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" ]; then
-						capacidad1=$(grep -v '[+] ' -c <"${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html")
-						if [ $capacidad1 != 0 ]; then
+					capacidad1=$(wc -l "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" | awk '{print $1}')
+						if [ $capacidad1 != 51 ]; then
 								curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMINIO} => TIENE ZILE" >/dev/null 2>/dev/null
 								echo "$(tput setab 2)   [-] [TIENE ZILE]$(tput sgr 0)"
 						fi
@@ -555,6 +561,9 @@ else
 		fi
 	fi
 fi
+
+
+
 
 
 
