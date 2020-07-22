@@ -1,4 +1,4 @@
-   #!/bin/bash
+     #!/bin/bash
 
 if [[ -z $1 ]]; then
 	 echo "$(tput setab 5) [+] Usage: $0 domain$(tput sgr 0)"
@@ -211,12 +211,16 @@ else
 				echo "$(tput setab 1) [-] XSStrike$(tput sgr 0)"
 				### XSStrike ###
 				cd ${MYDIR}/${DOMAIN}/XSStrike
-				python3 ~/tools/XSStrike/xsstrike.py -u "${WEB}" -d 2 -t 10 --timeout 5 --skip -l 1 --file-log-level VULN --seeds ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt --log-file ${DOMAIN}_xsstrike.txt >/dev/null 2>/dev/null
-				if [ -f ${MYDIR}/${DOMAIN}/XSStrike/${DOMAIN}_xsstrike.txt ]; then
-					cat ${MYDIR}/${DOMAIN}/XSStrike/${DOMAIN}_xsstrike.txt | ansi2html > ${DOMAIN}_xsstrike.html
-					rm ${DOMAIN}_xsstrike.txt
-					echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
-				else
+				if [ -f ${MIDIR}/${DOMINIO}/urlsfull/${DOMINIO}_urlsfull_final_parametros_final.txt ]; then
+					python3 ~/tools/XSStrike/xsstrike.py -u "${WEB}" -d 2 -t 10 --timeout 5 --skip -l 1 --file-log-level VULN --seeds ${MYDIR}/${DOMAIN}/urlsfull/${DOMAIN}_urlsfull_final_parameters_final.txt --log-file ${DOMAIN}_xsstrike.txt >/dev/null 2>/dev/null
+					if [ -f ${MYDIR}/${DOMAIN}/XSStrike/${DOMAIN}_xsstrike.txt ]; then
+						cat ${MYDIR}/${DOMAIN}/XSStrike/${DOMAIN}_xsstrike.txt | ansi2html > ${DOMAIN}_xsstrike.html
+						rm ${DOMAIN}_xsstrike.txt
+						echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
+					else
+						echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
+					fi
+			    else
 					echo "$(tput setab 5)   [-] [Without URL]$(tput sgr 0)"
 				fi
 			}
@@ -286,7 +290,7 @@ else
 				echo "$(tput setab 1) [-] SecretFinder$(tput sgr 0)"
 				### Analyze JS ###
 				cd ${MYDIR}/${DOMAIN}/SecretFinder
-				python3 ~/tools/secretfinder/SecretFinder.py -i "${WEB}/" -e -o ${MYDIR}/${DOMAIN}/secretfinder/SecretFinder.html >/dev/null 2>/dev/null
+				python3 ~/tools/secretfinder/SecretFinder.py -i "${WEB}/" -e -o ${MYDIR}/${DOMAIN}/SecretFinder/SecretFinder.html >/dev/null 2>/dev/null
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
@@ -455,10 +459,12 @@ else
 				fi
 
 				#eyewitness
-				ls "${MYDIR}/${DOMAIN}/eyewitness/screens/report.html" >/dev/null 2>/dev/null
-				if [ $? -eq 0 ]; then
-					curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMAIN} => With SCREENSHOTS" >/dev/null 2>/dev/null
-					echo "$(tput setab 2)   [-] [With SCREENSHOTS]$(tput sgr 0)"
+				if [ -f "${MYDIR}/${DOMAIN}/eyewitness/screens/report.html" ]; then
+					ls "${MYDIR}/${DOMAIN}/eyewitness/screens/report.html" >/dev/null 2>/dev/null
+					if [ $? -eq 0 ]; then
+						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMAIN} => With SCREENSHOTS" >/dev/null 2>/dev/null
+						echo "$(tput setab 2)   [-] [With SCREENSHOTS]$(tput sgr 0)"
+					fi
 				fi
 
 				#dalfox
@@ -494,13 +500,13 @@ else
 
 
 			    #zile
-				if [ -f "${MYDIR}/${DOMAIN}/zile/${DOMAIN}_zile.html" ]; then
-						capacidad1=$(grep -v '[+] ' -c <"${MYDIR}/${DOMAIN}/zile/${DOMAIN}_zile.html")
-						if [ $capacidad1 != 0 ]; then
-							curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMAIN} => With ZILE" >/dev/null 2>/dev/null
-							echo "$(tput setab 2)   [-] [With ZILE]$(tput sgr 0)"
-						fi
+				if [ -f "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" ]; then
+					capacidad1=$(wc -l "${MIDIR}/${DOMINIO}/zile/${DOMINIO}_zile.html" | awk '{print $1}')
+					if [ $capacidad1 != 51 ]; then
+						curl -s -X POST "https://api.telegram.org/${TELEAPI}/sendMessage" -d chat_id="${CHATID}" -d text="${DOMAIN} => With ZILE" >/dev/null 2>/dev/null
+						echo "$(tput setab 2)   [-] [With ZILE]$(tput sgr 0)"
 					fi
+				fi
 
 			    #smuggler
 				if [ -f "${MYDIR}/${DOMAIN}/smuggler/${DOMAIN}_smuggler.html" ]; then
