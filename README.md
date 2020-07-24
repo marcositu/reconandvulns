@@ -10,6 +10,6 @@ It should be noted that the scripts are not linked, so the 2nd part must be exec
 I apologize for the code, but it's not my strong 😕
 
 #  Setting Up the Container
-docker pull marcositu/reconandvulns:v1
+docker pull marcositu/reconandvulns:v2
 
 docker run -it --name reconandvulns -v ~/tools/Bounties/:/root/tools/Bounties/ marcositu/reconandvulns:v2 bash
