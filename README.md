@@ -12,4 +12,4 @@ I apologize for the code, but it's not my strong 😕
 #  Setting Up the Container
 docker pull marcositu/reconandvulns:v1
 
-docker run -it --name reconandvulns -v ~/tools/Bounties/:/root/tools/Bounties/ marcositu/reconandvulns:v1 bash
+docker run -it --name reconandvulns -v ~/tools/Bounties/:/root/tools/Bounties/ marcositu/reconandvulns:v2 bash
