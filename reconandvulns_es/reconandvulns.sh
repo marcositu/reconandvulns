@@ -41,7 +41,7 @@ else
 			mkdir -p ${MIDIR}/${DOMINIO}/dalfox
 			mkdir -p ${MIDIR}/${DOMINIO}/ffuf
 			mkdir -p ${MIDIR}/${DOMINIO}/urlsfull
-			mkdir -p ${MIDIR}/${DOMINIO}/gau
+			mkdir -p ${MIDIR}/${DOMINIO}/gauplus
 			mkdir -p ${MIDIR}/${DOMINIO}/kxss
 			mkdir -p ${MIDIR}/${DOMINIO}/paramspider
 			mkdir -p ${MIDIR}/${DOMINIO}/hinject
@@ -162,11 +162,11 @@ else
 			}
 
 
-			funcion_gau () {
-				echo "$(tput setab 1) [-] gau (web crawler)$(tput sgr 0)"
-				### gau (web crawler) ###
-				cd ${MIDIR}/${DOMINIO}/gau
-				gau ${DOMINIO} > ${DOMINIO}_gau.txt 2>/dev/null
+			funcion_gauplus () {
+				echo "$(tput setab 1) [-] gauplus (web crawler)$(tput sgr 0)"
+				### gauplus (web crawler) ###
+				cd ${MIDIR}/${DOMINIO}/gauplus
+				gauplus --random-agent -t 25 ${DOMINIO} -o ${DOMINIO}_gauplus.txt 2>/dev/null
 				echo "$(tput setab 2)   [-] [OK]$(tput sgr 0)"
 			}
 
@@ -319,8 +319,8 @@ else
 					cat ${MIDIR}/${DOMINIO}/ffuf/${DOMINIO}_ffuf_final.txt | grep '^200' | awk '{print $3}' >> ${DOMINIO}_urlsfull_parcial.txt
 				fi
 
-				if [ -f ${MIDIR}/${DOMINIO}/gau/${DOMINIO}_gau.txt ]; then
-					cat ${MIDIR}/${DOMINIO}/gau/${DOMINIO}_gau.txt | hakcheckurl 2>/dev/null | grep '^200' | sed 's/200 //g'>> ${DOMINIO}_urlsfull_parcial.txt
+				if [ -f ${MIDIR}/${DOMINIO}/gauplus/${DOMINIO}_gauplus.txt ]; then
+					cat ${MIDIR}/${DOMINIO}/gauplus/${DOMINIO}_gauplus.txtt | hakcheckurl 2>/dev/null | grep '^200' | sed 's/200 //g'>> ${DOMINIO}_urlsfull_parcial.txt
 				fi
 
 				if [ -f ${MIDIR}/${DOMINIO}/paramspider/output/${DOMINIO}_paramspider.txt ]; then
@@ -539,7 +539,7 @@ else
 			#funcion_naabu
 			funcion_ffuf
 			funcion_hakrawler
-			funcion_gau
+			funcion_gauplus
 			funcion_waybackurls
 			funcion_urls_interesantes
 			funcion_github
